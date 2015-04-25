@@ -83,7 +83,7 @@ class Algorithm(object):
         :return: None
         """
 
-        # Fit the classifier (train it) with our selected columns, and try to predict the to_predict column.
+        # Fit the regressor (train it) with our selected columns, and try to predict the to_predict column.
         self.clf.fit(feats, to_predict)
 
     def predict(self, feats):

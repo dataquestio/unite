@@ -13,9 +13,9 @@ We'll be predicting the score (0-5) given to a product by an amazon reviewer bas
 
 We'll be using root mean squared error as the evaluation metric.  The algorithm performance will be evaluated by a continuous integration server using a hidden test set.
 
-## Contributing
+## Participating
 
-You can contribute by forking this repo, making some changes, and then opening a PR.  
+You can participate by forking this repo, making some changes, and then opening a PR.  You'll be automatically added to the leaderboard.
 
 We have a server that will automatically run and check your code, and assign you points if it passes.  You can run the tests locally on the validation set with `test.py`.  
 
