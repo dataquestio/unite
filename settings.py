@@ -1,3 +1,7 @@
+"""
+This file contains global configuration used in other modules.
+"""
+
 import os
 
 BASE_DIR = os.path.dirname(__file__)
