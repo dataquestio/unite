@@ -3,9 +3,9 @@ Unite!
 
 This is an experimental machine learning contest.  Instead of having everyone make an algorithm, and then picking the one with the lowest error as the "winner", we're going to collaboratively design an approach.  
 
-You can find the point leaderboard [here](http://unite.dataquest.io/f/leaderboard/dataquestio/unite).  Points are assigned based on a few criteria, including opening a pull request (PR), having a PR merged, and having a lower error rate than anyone else.  
+Everyone will accumulate points based on their contributions.  You can find the point leaderboard [here](http://unite.dataquest.io/f/leaderboard/dataquestio/unite).  Points are assigned based on a few criteria, including opening a pull request (PR), having a PR merged, and having a lower error rate than anyone else.  
 
-The contest will run until June 30th.
+The contest will run until July 31st.  The total prize pool for the top 3 finishers is 400 dollars.
 
 ## The problem
 
@@ -48,6 +48,8 @@ Right now, you get:
 * 10 points if your error is lower than the global minimum (across all open, unmerged, and merged PRs)
     * Note: You have to open a PR to get this -- just working on a fork isn't enough.
 * 4 points for getting a PR merged.
+
+Opening too many PRs without meaningful contributions can result in disqualification.
 
 File structure
 -------------------
