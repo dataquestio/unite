@@ -1,25 +1,29 @@
-Unite!
+Unite
 ----------------
 
-This is an experimental machine learning contest.  Instead of having everyone make an algorithm, and then picking the one with the lowest error as the "winner", we're going to collaboratively design an approach.  
+This is an experimental machine learning contest.  We're predicting the scores given to products by reviewers on amazon based on the text of the reviews.  The code to create the solution lives in this repo, and anyone can make a pull request to improve it.  The idea is to make a crowdsourced, constantly improving solution.
 
 Everyone will accumulate points based on their contributions.  You can find the point leaderboard [here](http://unite.dataquest.io/f/leaderboard/dataquestio/unite).  Points are assigned based on a few criteria, including opening a pull request (PR), having a PR merged, and having a lower error rate than anyone else.  
 
 The contest will run until July 31st.  The total prize pool for the top 3 finishers is 400 dollars.
 
-## The problem
+### Participating
+
+Anyone is welcome to contribute, regardless of machine learning experience!  You can participate by forking this repo, making some changes, and then opening a PR.  You'll be automatically added to the leaderboard.
+
+We have a server that will automatically run and check your code, and assign you points if it passes.  You can run the tests locally on the validation set with `test.py`.  
+
+All kinds of changes are welcome, including adding comments, refactoring code, making visualizations, and improving the algorithms.
+
+### The problem
 
 We'll be predicting the score (0-5) given to a product by an amazon reviewer based on the text and summary of the review.  The data is originally from the Stanford Large Network Dataset Collection.  
 
 We'll be using root mean squared error as the evaluation metric.  The algorithm performance will be evaluated by a continuous integration server using a hidden test set.
 
-## Participating
+### Why make this
 
-You can participate by forking this repo, making some changes, and then opening a PR.  You'll be automatically added to the leaderboard.
-
-We have a server that will automatically run and check your code, and assign you points if it passes.  You can run the tests locally on the validation set with `test.py`.  
-
-All kinds of changes are welcome, including adding comments, refactoring code, and improving the algorithms.  Anyone can contribute, regardless of machine learning experience.
+This experiment is an attempt to see if a fun, collaborative experience can be created for a machine learning contest and result in a high quality solution.
 
 How to get started
 -------------------
