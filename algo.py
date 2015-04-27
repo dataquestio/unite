@@ -3,7 +3,7 @@ from sklearn.pipeline import Pipeline
 import re
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from scipy.sparse import hstack, csr_matrix
+from scipy.sparse import hstack
 
 class Algorithm(object):
     """
@@ -83,9 +83,7 @@ class Algorithm(object):
                                     'review_exclams': df.text.apply(lambda x: x.count("!")),
                                     'summary_question_marks': df.text.apply(lambda x: x.count("?")),
                                     'review_question_marks': df.text.apply(lambda x: x.count("?"))})
-
         features = hstack([algorithmic_features, hand_chosen_features])
-
         return algorithmic_features
 
     def train(self, feats, to_predict):
