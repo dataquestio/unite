@@ -21,7 +21,7 @@ class Algorithm(object):
         self.clf = LinearRegression()
         # Create a vectorizer to extract features.
         # Important to make this a class attribute, as the vocab needs to be the same for train and prediction sets.
-        self.vectorizer = CountVectorizer(min_df=20, stop_words="english")
+        self.vectorizer = CountVectorizer(min_df=100, stop_words="english")
 
     def generate_df(self, data):
         """
@@ -94,5 +94,5 @@ class Algorithm(object):
         """
 
         # Generate the predictions.
-        predictions = self.clf.predict(feats)
+        predictions = self.clf.predict(feats).clip(0.1, 4.9)
         return predictions
