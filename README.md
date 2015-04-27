@@ -51,9 +51,10 @@ Right now, you get:
 * 2 points for opening a PR.
 * 10 points if your error is lower than the global minimum (across all open, unmerged, and merged PRs)
     * Note: You have to open a PR to get this -- just working on a fork isn't enough.
+    * This also applies to pushes to existing PRs.
 * 4 points for getting a PR merged.
 
-Opening too many PRs without meaningful contributions can result in disqualification.
+Opening too many PRs or pushing without meaningful contributions can result in disqualification.
 
 File structure
 -------------------
@@ -72,9 +73,9 @@ File structure
 Merge conflicts
 ------------------
 
-We'll be merging pull requests on a "first reasonable pull request will be merged" basis.  This will probably lead to cases where later PRs can't be merged due to conflicts.  If this happens, you can close your PR, update it, and then open a new one.
+We'll be merging pull requests on a "first reasonable pull request will be merged" basis.  This will probably lead to cases where later PRs can't be merged due to conflicts.  If this happens, you can update your PR after rebasing onto master.
 
-If you want to work on a unique approach on your own unmergeable fork, you can feel free to do that and periodically open pull requests -- this will enable you to get the 10 points for lowest error, but will prevent you from getting any merge points.
+If you want to work on a unique approach on your own unmergeable fork, you can feel free to do that and open a PR -- this will enable you to get the 10 points for lowest error, but will prevent you from getting any merge points.
 
 Suggestions?
 -------------------
