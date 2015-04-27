@@ -1,10 +1,13 @@
 from __future__ import division
 from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.pipeline import Pipeline
 import re
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from scipy.sparse import hstack
+from sklearn.feature_selection import chi2, f_regression
+from sklearn.feature_selection import SelectKBest
 import string
 
 class Algorithm(object):
@@ -27,6 +30,7 @@ class Algorithm(object):
         # Important to make this a class attribute, as the vocab needs to be the same for train and prediction sets.
         self.vectorizer = Pipeline([('vect', CountVectorizer(min_df=20, stop_words="english")),
                                     ('tfidf', TfidfTransformer())])
+        self.collist = []
 
     def generate_df(self, data):
         """
@@ -86,7 +90,8 @@ class Algorithm(object):
             "question_marks": lambda x: x.count("?"),
             "sentences": lambda x: x.count("."),
             # Add one as a smooth.
-            "words_per_sentence": lambda x: x.count(" ") / (x.count(".") + 1)
+            "words_per_sentence": lambda x: x.count(" ") / (x.count(".") + 1),
+            "letters_per_word": lambda x: len(x) / (x.count(" ") + 1),
         }
 
         # Create a list of pandas columns.
@@ -101,7 +106,17 @@ class Algorithm(object):
 
         hand_chosen_features = pd.concat(hand_features_list, axis=1)
         hand_chosen_features.columns = hand_feature_names
+
         features = hstack([algorithmic_features, hand_chosen_features])
+
+        if type == "train":
+            # Select 1000 "best" columns based on chi squared.
+            selector = SelectKBest(chi2, k=1000)
+            selector.fit(features, df["score"])
+            self.collist = selector.get_support().nonzero()
+
+        # Grab chi squared selected column subset.
+        features = features.tocsc()[:, self.collist[0]].todense()
         return features
 
     def train(self, feats, to_predict):
