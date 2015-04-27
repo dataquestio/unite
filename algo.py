@@ -83,10 +83,7 @@ class Algorithm(object):
                                     'review_exclams': df.text.apply(lambda x: x.count("!")),
                                     'summary_question_marks': df.text.apply(lambda x: x.count("?")),
                                     'review_question_marks': df.text.apply(lambda x: x.count("?"))})
-        #summary_length = df.summary.apply(lambda x: len(x))
-        #review_length = df.text.apply(lambda x: len(x))
-        #import pdb
-        #pdb.set_trace()
+
         features = hstack([algorithmic_features, hand_chosen_features])
 
         return algorithmic_features
