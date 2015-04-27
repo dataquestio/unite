@@ -28,8 +28,10 @@ class Algorithm(object):
         self.clf = Ridge()
         # Create a vectorizer to extract features.
         # Important to make this a class attribute, as the vocab needs to be the same for train and prediction sets.
-        self.vectorizer = Pipeline([('vect', CountVectorizer(min_df=20, stop_words="english")),
-                                    ('tfidf', TfidfTransformer())])
+        self.vectorizer = Pipeline([
+            ('vect', CountVectorizer(min_df=20, stop_words="english", ngram_range=(1,2))),
+            ('tfidf', TfidfTransformer())
+        ])
         self.collist = []
 
     def generate_df(self, data):
@@ -92,6 +94,7 @@ class Algorithm(object):
             # Add one as a smooth.
             "words_per_sentence": lambda x: x.count(" ") / (x.count(".") + 1),
             "letters_per_word": lambda x: len(x) / (x.count(" ") + 1),
+            "commas": lambda x: x.count(","),
         }
 
         # Create a list of pandas columns.
@@ -111,7 +114,7 @@ class Algorithm(object):
 
         if type == "train":
             # Select 1000 "best" columns based on chi squared.
-            selector = SelectKBest(chi2, k=1000)
+            selector = SelectKBest(chi2, k=2000)
             selector.fit(features, df["score"])
             self.collist = selector.get_support().nonzero()
 
