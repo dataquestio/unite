@@ -1,9 +1,11 @@
+from __future__ import division
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.pipeline import Pipeline
 import re
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from scipy.sparse import hstack
+import string
 
 class Algorithm(object):
     """
@@ -76,15 +78,31 @@ class Algorithm(object):
             algorithmic_features = self.vectorizer.fit_transform(df["text"])
         else:
             algorithmic_features = self.vectorizer.transform(df["text"])
-        hand_chosen_features = pd.DataFrame(
-                                    {'summary_length': df.summary.apply(lambda x: len(x)),
-                                    'review_length': df.text.apply(lambda x: len(x)),
-                                    'summary_exclams': df.summary.apply(lambda x: x.count("!")),
-                                    'review_exclams': df.text.apply(lambda x: x.count("!")),
-                                    'summary_question_marks': df.text.apply(lambda x: x.count("?")),
-                                    'review_question_marks': df.text.apply(lambda x: x.count("?"))})
+
+        # Define some functions that can transform the text into features.
+        transform_functions = {
+            "length": lambda x: len(x),
+            "exclams": lambda x: x.count("!"),
+            "question_marks": lambda x: x.count("?"),
+            "sentences": lambda x: x.count("."),
+            # Add one as a smooth.
+            "words_per_sentence": lambda x: x.count(" ") / (x.count(".") + 1)
+        }
+
+        # Create a list of pandas columns.
+        # This guarantees order -- dictionaries may not.
+        hand_features_list = []
+        hand_feature_names = []
+
+        for col in ["text", "summary"]:
+            for name, func in transform_functions.iteritems():
+                hand_features_list.append(df[col].apply(func))
+                hand_feature_names.append("{0}_{1}".format(col, name))
+
+        hand_chosen_features = pd.concat(hand_features_list, axis=1)
+        hand_chosen_features.columns = hand_feature_names
         features = hstack([algorithmic_features, hand_chosen_features])
-        return algorithmic_features
+        return features
 
     def train(self, feats, to_predict):
         """
