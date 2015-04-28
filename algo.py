@@ -86,34 +86,27 @@ class Algorithm(object):
             algorithmic_features = self.vectorizer.transform(df["text"])
 
         # Define some functions that can transform the text into features.
-        transform_functions = {
-            "length": lambda x: len(x),
-            "exclams": lambda x: x.count("!"),
-            "question_marks": lambda x: x.count("?"),
-            "sentences": lambda x: x.count("."),
+        transform_functions = [
+            ("length", lambda x: len(x)),
+            ("exclams", lambda x: x.count("!")),
+            ("question_marks", lambda x: x.count("?")),
+            ("sentences", lambda x: x.count(".")),
             # Add one as a smooth.
-            "words_per_sentence": lambda x: x.count(" ") / (x.count(".") + 1),
-            "letters_per_word": lambda x: len(x) / (x.count(" ") + 1),
-            "commas": lambda x: x.count(","),
-        }
-
-        # Create a list of pandas columns.
-        # This guarantees order -- dictionaries may not.
-        hand_features_list = []
-        hand_feature_names = []
+            ("words_per_sentence", lambda x: x.count(" ") / (x.count(".") + 1)),
+            ("letters_per_word", lambda x: len(x) / (x.count(" ") + 1)),
+            ("commas", lambda x: x.count(","))
+        ]
+        hand_chosen_features = pd.DataFrame()
 
         for col in ["text", "summary"]:
-            for name, func in transform_functions.iteritems():
-                hand_features_list.append(df[col].apply(func))
-                hand_feature_names.append("{0}_{1}".format(col, name))
+            for name, func in transform_functions:
+                hand_chosen_features["{0}_{1}".format(col, name)] = df[col].apply(func)
 
-        hand_chosen_features = pd.concat(hand_features_list, axis=1)
-        hand_chosen_features.columns = hand_feature_names
-
+        #hand_chosen_features['helpful_yes'] = df.helpfulness.apply(lambda x: x.split("/")[0]).astype('int')
+        #hand_chosen_features['helpful_total'] = df.helpfulness.apply(lambda x: x.split("/")[1]).astype('int')
         features = hstack([algorithmic_features, hand_chosen_features])
-
         if type == "train":
-            # Select 1000 "best" columns based on chi squared.
+            # Select 2000 "best" columns based on chi squared.
             selector = SelectKBest(chi2, k=2000)
             selector.fit(features, df["score"])
             self.collist = selector.get_support().nonzero()
