@@ -96,20 +96,16 @@ class Algorithm(object):
             "letters_per_word": lambda x: len(x) / (x.count(" ") + 1),
             "commas": lambda x: x.count(","),
         }
-
         # Create a list of pandas columns.
         # This guarantees order -- dictionaries may not.
-        hand_features_list = []
-        hand_feature_names = []
+        hand_chosen_features = pd.DataFrame()
 
         for col in ["text", "summary"]:
             for name, func in transform_functions.iteritems():
-                hand_features_list.append(df[col].apply(func))
-                hand_feature_names.append("{0}_{1}".format(col, name))
+                hand_chosen_features["{0}_{1}".format(col, name)] = df[col].apply(func)
 
-        hand_chosen_features = pd.concat(hand_features_list, axis=1)
-        hand_chosen_features.columns = hand_feature_names
-
+        hand_chosen_features['helpful_yes'] = df.helpfulness.apply(lambda x: x.split("/")[0]).astype('int')
+        hand_chosen_features['helpful_no'] = df.helpfulness.apply(lambda x: x.split("/")[1]).astype('int')
         features = hstack([algorithmic_features, hand_chosen_features])
 
         if type == "train":
