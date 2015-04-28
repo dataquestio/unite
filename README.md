@@ -1,29 +1,23 @@
 Unite
 ----------------
 
-This is an experimental machine learning contest.  We're predicting the scores given to products by reviewers on amazon based on the text of the reviews.  The code to create the solution lives in this repo, and anyone can make a pull request to improve it.  The idea is to make a crowdsourced, constantly improving solution.
+**What is this?**   This is an open data science contest.  The goal is to learn through collaboration.  Anyone is welcome to participate, and there are many different ways to do so.
 
-Everyone will accumulate points based on their contributions.  You can find the point leaderboard [here](http://unite.dataquest.io/f/leaderboard/dataquestio/unite).  Points are assigned based on a few criteria, including opening a pull request (PR), having a PR merged, and having a lower error rate than anyone else.  
+**What will we be doing?** The ultimate goal is to predict the scores given to products by reviewers on amazon based on the text of the reviews.
 
-The contest will run until July 31st.  The total prize pool for the top 3 finishers is 400 dollars.
+**How can I participate?** Anyone can contribute, and this includes improving the algorithm, adding in visalizations, commenting on code, refactoring, starting discussions, and other helpful things you think of.  To get started, just fork the repo and open a pull request.  All code is written in python 2.7.
 
-### Participating
-
-Anyone is welcome to contribute, regardless of machine learning experience!  You can participate by forking this repo, making some changes, and then opening a PR.  You'll be automatically added to the leaderboard.
-
-We have a server that will automatically run and check your code, and assign you points if it passes.  You can run the tests locally on the validation set with `test.py`.  
-
-All kinds of changes are welcome, including adding comments, refactoring code, making visualizations, and improving the algorithms.
+**How will we be scored?** Everyone will accumulate points based on their contributions.  You can find the point leaderboard [here](http://unite.dataquest.io/f/leaderboard/dataquestio/unite).  Points are assigned based on a few criteria, including opening a pull request (PR), having a PR merged, and having a lower error rate than anyone else. The contest will run until July 31st.  The total prize pool for the top 3 finishers is 400 dollars.
 
 ### The problem
 
 We'll be predicting the score (0-5) given to a product by an amazon reviewer based on the text and summary of the review.  The data is originally from the Stanford Large Network Dataset Collection.  
 
-We'll be using root mean squared error as the evaluation metric.  The algorithm performance will be evaluated by a continuous integration server using a hidden test set.
+We'll be using root mean squared error as the evaluation metric.  The algorithm performance will be evaluated by a continuous integration server using a hidden test set.  Whenever you open a pull request, the server will check your code.
 
 ### Why make this
 
-This experiment is an attempt to see if a fun, collaborative experience can be created for a machine learning contest and result in a high quality solution.
+This is an experiment to see if we can help people learn and improve their practical data science skills through open contests.
 
 How to get started
 -------------------
