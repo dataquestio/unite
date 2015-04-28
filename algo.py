@@ -102,11 +102,9 @@ class Algorithm(object):
             for name, func in transform_functions.iteritems():
                 hand_chosen_features["{0}_{1}".format(col, name)] = df[col].apply(func)
 
-        #hand_chosen_features['helpful_yes'] = df.helpfulness.apply(lambda x: x.split("/")[0]).astype('int')
-        #hand_chosen_features['helpful_total'] = df.helpfulness.apply(lambda x: x.split("/")[1]).astype('int')
+        hand_chosen_features['helpful_yes'] = df.helpfulness.apply(lambda x: x.split("/")[0]).astype('int')
+        hand_chosen_features['helpful_total'] = df.helpfulness.apply(lambda x: x.split("/")[1]).astype('int')
         features = hstack([algorithmic_features, hand_chosen_features])
-        #import pdb
-        #pdb.set_trace()
         if type == "train":
             # Select 2000 "best" columns based on chi squared.
             selector = SelectKBest(chi2, k=2000)
