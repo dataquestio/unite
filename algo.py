@@ -105,8 +105,8 @@ class Algorithm(object):
         #hand_chosen_features['helpful_yes'] = df.helpfulness.apply(lambda x: x.split("/")[0]).astype('int')
         #hand_chosen_features['helpful_total'] = df.helpfulness.apply(lambda x: x.split("/")[1]).astype('int')
         features = hstack([algorithmic_features, hand_chosen_features])
-        import pdb
-        pdb.set_trace()
+        #import pdb
+        #pdb.set_trace()
         if type == "train":
             # Select 2000 "best" columns based on chi squared.
             selector = SelectKBest(chi2, k=2000)
