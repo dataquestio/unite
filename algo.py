@@ -86,20 +86,20 @@ class Algorithm(object):
             algorithmic_features = self.vectorizer.transform(df["text"])
 
         # Define some functions that can transform the text into features.
-        transform_functions = {
-            "length": lambda x: len(x),
-            "exclams": lambda x: x.count("!"),
-            "question_marks": lambda x: x.count("?"),
-            "sentences": lambda x: x.count("."),
+        transform_functions = [
+            ("length", lambda x: len(x)),
+            ("exclams", lambda x: x.count("!")),
+            ("question_marks", lambda x: x.count("?")),
+            ("sentences", lambda x: x.count(".")),
             # Add one as a smooth.
-            "words_per_sentence": lambda x: x.count(" ") / (x.count(".") + 1),
-            "letters_per_word": lambda x: len(x) / (x.count(" ") + 1),
-            "commas": lambda x: x.count(","),
-        }
+            ("words_per_sentence", lambda x: x.count(" ") / (x.count(".") + 1)),
+            ("letters_per_word", lambda x: len(x) / (x.count(" ") + 1)),
+            ("commas", lambda x: x.count(","))
+        ]
         hand_chosen_features = pd.DataFrame()
 
         for col in ["text", "summary"]:
-            for name, func in transform_functions.iteritems():
+            for name, func in transform_functions:
                 hand_chosen_features["{0}_{1}".format(col, name)] = df[col].apply(func)
 
         #hand_chosen_features['helpful_yes'] = df.helpfulness.apply(lambda x: x.split("/")[0]).astype('int')
