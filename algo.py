@@ -1,14 +1,12 @@
 from __future__ import division
-from sklearn.linear_model import LinearRegression, Ridge
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Ridge
 from sklearn.pipeline import Pipeline
 import re
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from scipy.sparse import hstack
-from sklearn.feature_selection import chi2, f_regression
+from sklearn.feature_selection import chi2
 from sklearn.feature_selection import SelectKBest
-import string
 
 class Algorithm(object):
     """
