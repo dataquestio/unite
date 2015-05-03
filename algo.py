@@ -1,14 +1,15 @@
 from __future__ import division
-from sklearn.linear_model import LinearRegression, Ridge
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.pipeline import Pipeline
+
 import re
-import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+
+from pandas import DataFrame
 from scipy.sparse import hstack
-from sklearn.feature_selection import chi2, f_regression
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_selection import SelectKBest
-import string
+from sklearn.feature_selection import chi2
+from sklearn.linear_model import Ridge
+from sklearn.pipeline import Pipeline
 
 class Algorithm(object):
     """
@@ -66,7 +67,7 @@ class Algorithm(object):
             # Add the row into the new matrix.
             matrix.append(new_row[:5])
         # Convert the list of lists into a pandas dataframe
-        df = pd.DataFrame(matrix, columns=["product_id", "helpfulness", "score", "summary", "text"])
+        df = DataFrame(matrix, columns=["product_id", "helpfulness", "score", "summary", "text"])
         df["score"] = df["score"].astype(float)
         df["text"] = [t.lower() for t in df["text"]]
         return df
@@ -96,7 +97,7 @@ class Algorithm(object):
             ("letters_per_word", lambda x: len(x) / (x.count(" ") + 1)),
             ("commas", lambda x: x.count(","))
         ]
-        hand_chosen_features = pd.DataFrame()
+        hand_chosen_features = DataFrame()
 
         for col in ["text", "summary"]:
             for name, func in transform_functions:
