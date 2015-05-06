@@ -86,7 +86,21 @@ class Algorithm(object):
         else:
             algorithmic_features = self.vectorizer.transform(df["text"])
 
+        def count_words_negated(text, words_to_check):
+            negation_words = ["not", "don't", "didn't", "didnt", "wasnt", "wasn't"]
+            negation_words_regex = "|".join(negation_words)
+            words_to_check_regex = "|".join(words_to_check)
+            text_sentences = re.split("[?.!]", text) #simplifies checking words are in same sent
+            my_regex = r"\b(%s)\b.*\b(%s)\b|\b(%s)\b.*\b(%s)\b"%(negation_words_regex, words_to_check_regex, \
+                                                words_to_check, negation_words_regex)
+            out = len(re.findall(my_regex, text))
+            return(out)
+
         # Define some functions that can transform the text into features.
+        good_words = ["good", "great", "better", "best", "efficient", "sweet", 
+                      "delicious", "like", "love", "thanks", "perfect"]
+        bad_words = ["bad", "worse"]
+
         transform_functions = [
             ("length", lambda x: len(x)),
             ("exclams", lambda x: x.count("!")),
@@ -95,7 +109,9 @@ class Algorithm(object):
             # Add one as a smooth.
             ("words_per_sentence", lambda x: x.count(" ") / (x.count(".") + 1)),
             ("letters_per_word", lambda x: len(x) / (x.count(" ") + 1)),
-            ("commas", lambda x: x.count(","))
+            ("commas", lambda x: x.count(",")),
+            ("negated_good_words", lambda x: count_words_negated(x, good_words)),
+            ("negated_bad_words", lambda x: count_words_negated(x, bad_words))
         ]
         hand_chosen_features = DataFrame()
 
@@ -105,6 +121,7 @@ class Algorithm(object):
 
         hand_chosen_features['helpful_yes'] = df.helpfulness.apply(lambda x: x.split("/")[0]).astype('int')
         hand_chosen_features['helpful_total'] = df.helpfulness.apply(lambda x: x.split("/")[1]).astype('int')
+        
         features = hstack([algorithmic_features, hand_chosen_features])
         if type == "train":
             # Select 2000 "best" columns based on chi squared.
@@ -114,6 +131,7 @@ class Algorithm(object):
 
         # Grab chi squared selected column subset.
         features = features.tocsc()[:, self.collist[0]].todense()
+
         return features
 
     def train(self, feats, to_predict):
