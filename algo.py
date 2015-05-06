@@ -1,7 +1,6 @@
 from __future__ import division
 
 import re
-
 from pandas import DataFrame
 from scipy.sparse import hstack
 from sklearn.feature_extraction.text import CountVectorizer
@@ -97,8 +96,8 @@ class Algorithm(object):
             return(out)
 
         # Define some functions that can transform the text into features.
-        good_words = ["good", "great", "better", "best", "efficient", "sweet", 
-                      "delicious", "like", "love", "thanks", "perfect"]
+        good_words = ["good", "great", "better", "best", "efficient", "sweet",
+                        "delicious", "like", "love", "thanks", "perfect"]
         bad_words = ["bad", "worse"]
 
         transform_functions = [
@@ -121,7 +120,6 @@ class Algorithm(object):
 
         hand_chosen_features['helpful_yes'] = df.helpfulness.apply(lambda x: x.split("/")[0]).astype('int')
         hand_chosen_features['helpful_total'] = df.helpfulness.apply(lambda x: x.split("/")[1]).astype('int')
-        
         features = hstack([algorithmic_features, hand_chosen_features])
         if type == "train":
             # Select 2000 "best" columns based on chi squared.
